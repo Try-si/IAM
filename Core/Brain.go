@@ -74,7 +74,7 @@ func (f *Brain) GetCurrentState(name string) string {
 }
 
 func (f *Brain) GetNewState(name string, randSrc *rand.Rand) (BrainTransition, any) {
-	worldState := WorldState{}
+	worldState := NewWorldState()
 	all := []struct {
 		Transition BrainTransition
 		MetaData   any

@@ -65,7 +65,7 @@ func (f *FSM) GetCurrentState(name string) string {
 }
 
 func (f *FSM) GetNewState(name string) (FSMTransition, any) {
-	worldState := WorldState{}
+	worldState := NewWorldState()
 	for _, transCond := range f.Transition[f.GetCurrentState(name)] {
 		if ok, metaData := transCond.Condition(worldState); ok {
 			return transCond, metaData

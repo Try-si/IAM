@@ -42,6 +42,17 @@ type BrainEntity struct {
 
 // BeavioursTree
 
+type BeavioursTree struct {
+	Roots map[string]*BehaviourNode
+}
+
+type BehaviourNode struct {
+	Condition func(WorldState) (bool, any)
+	TrueNode  *BehaviourNode
+	FalseNode *BehaviourNode
+	Action    func(any)
+}
+
 // Other
 
 type State struct {

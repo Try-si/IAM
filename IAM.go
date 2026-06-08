@@ -9,6 +9,7 @@ import (
 var (
 	fsm   Core.FSM
 	brain Core.Brain
+	bt    Core.BeavioursTree
 )
 
 // FSM Management
@@ -44,5 +45,13 @@ func GetBrain() Core.Brain {
 // BeavioursTree Management
 
 func InitBeavioursTree() {
+	bt = *Core.InitBeavioursTree()
+}
 
+func ExecuteBehavioursTree(root string) {
+	bt.Execute(root)
+}
+
+func GetBeavioursTree() Core.BeavioursTree {
+	return bt
 }
