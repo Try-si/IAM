@@ -1,0 +1,55 @@
+{
+    "Mobs": {
+        "zombie": {
+            "Root": "zombieBase",
+
+            "IFs": {
+                "zombieBase": {
+                    "If": { "Type": 1, "Range": 12, "Target": "player" },
+                    "True":  "zombieChase?",
+                    "False": "zombieIdle"
+                },
+                "zombieChase?": {
+                    "If": { "Type": 1, "Range": 2, "Target": "player" },
+                    "True":  "zombieAttack",
+                    "False": "zombieChase"
+                }
+            },
+
+            "Actions": {
+                "zombieIdle":   {},
+                "zombieChase":  { "speed": 60, "target": "player" },
+                "zombieAttack": { "damage": 10, "attackRate": 1.2, "sound": "groan" }
+            }
+        },
+
+        "guard": {
+            "Root": "guardBase",
+
+            "IFs": {
+                "guardBase": {
+                    "If": { "Type": 2, "Range": 15, "Target": "player" },
+                    "True":  "guardAlert?",
+                    "False": "guardPatrol"
+                },
+                "guardAlert?": {
+                    "If": { "Type": 3, "Threshold": 0.3 },
+                    "True":  "guardFlee",
+                    "False": "guardChase?"
+                },
+                "guardChase?": {
+                    "If": { "Type": 1, "Range": 3, "Target": "player" },
+                    "True":  "guardAttack",
+                    "False": "guardChase"
+                }
+            },
+
+            "Actions": {
+                "guardPatrol":  { "speed": 40, "patrolDir": 1 },
+                "guardChase":   { "speed": 90, "target": "player" },
+                "guardAttack":  { "damage": 20, "attackRate": 0.8 },
+                "guardFlee":    { "speed": 120, "fleeFrom": "player" }
+            }
+        }
+    }
+}
