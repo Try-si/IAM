@@ -24,8 +24,8 @@ func UpdateFSM() {
 	}
 }
 
-func GetFSM() Core.FSM {
-	return fsm
+func GetFSM() *Core.FSM {
+	return &fsm
 }
 
 // Brain Management
@@ -38,8 +38,8 @@ func UpdateBrain(randSrc *rand.Rand) {
 	brain.Update(randSrc)
 }
 
-func GetBrain() Core.Brain {
-	return brain
+func GetBrain() *Core.Brain {
+	return &brain
 }
 
 // BeavioursTree Management
@@ -52,6 +52,12 @@ func ExecuteBehavioursTree(root string) {
 	bt.Execute(root)
 }
 
-func GetBeavioursTree() Core.BeavioursTree {
-	return bt
+func GetBeavioursTree() *Core.BeavioursTree {
+	return &bt
+}
+
+func UpdateBeavioursTree() {
+	for name := range bt.GetRoots() {
+		bt.Execute(name)
+	}
 }
