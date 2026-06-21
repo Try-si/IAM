@@ -1,11 +1,26 @@
 package Core
 
+import (
+	"encoding/json"
+	"os"
+)
+
 // Root management
 
-func InitBeavioursTree() *BeavioursTree {
-	return &BeavioursTree{
+func InitBeavioursTree(config string) *BeavioursTree {
+	bt := &BeavioursTree{
 		Roots: make(map[string]*BehaviourNode),
 	}
+
+	if config != "" && len(config) > 4 {
+		if config[len(config)-4:] == ".json" {
+			bt = LoadTFromFile[*BeavioursTree](config)
+		} else {
+			bt = LoadTFromString[*BeavioursTree](config)
+		}
+	}
+
+	return bt
 }
 
 func (bt *BeavioursTree) AddRoot(name string, node *BehaviourNode) {
@@ -62,4 +77,22 @@ func (node *BehaviourNode) Verify() bool {
 		return false
 	}
 	return true
+}
+
+/////
+
+func LoadTFromString[T any](config string) T {
+	var result T
+	json.Unmarshal([]byte(config), &result)
+	return result
+}
+
+func LoadTFromFile[T any](path string) T {
+	var result T
+	fileRead, err := os.ReadFile(path)
+	if err != nil {
+		return result
+	}
+	result = LoadTFromString[T](string(fileRead))
+	return result
 }

@@ -5,8 +5,22 @@ import (
 	"sort"
 )
 
-func NewBrain() *Brain {
-	return &Brain{}
+func NewBrain(config string) *Brain {
+	brain := &Brain{
+		States:     make(map[string]State),
+		Transition: make(map[string][]BrainTransition),
+		Entity:     make(map[string]BrainEntity),
+	}
+
+	if len(config) > 4 {
+		if config[len(config)-4:] == ".json" {
+			brain = LoadTFromFile[*Brain](config)
+		} else {
+			brain = LoadTFromString[*Brain](config)
+		}
+	}
+
+	return brain
 }
 
 // Gestion Functions

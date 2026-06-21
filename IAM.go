@@ -14,8 +14,8 @@ var (
 
 // FSM Management
 
-func InitFSM() {
-	fsm = *Core.NewFSM()
+func InitFSM(config string) {
+	fsm = *Core.NewFSM(config)
 }
 
 func UpdateFSM() {
@@ -30,8 +30,8 @@ func GetFSM() *Core.FSM {
 
 // Brain Management
 
-func InitBrain() {
-	brain = *Core.NewBrain()
+func InitBrain(config string) {
+	brain = *Core.NewBrain(config)
 }
 
 func UpdateBrain(randSrc *rand.Rand) {
@@ -44,8 +44,8 @@ func GetBrain() *Core.Brain {
 
 // BeavioursTree Management
 
-func InitBeavioursTree() {
-	bt = *Core.InitBeavioursTree()
+func InitBeavioursTree(config string) {
+	bt = *Core.InitBeavioursTree(config)
 }
 
 func ExecuteBehavioursTree(root string) {

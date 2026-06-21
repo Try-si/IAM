@@ -1,7 +1,21 @@
 package Core
 
-func NewFSM() *FSM {
-	return &FSM{}
+func NewFSM(config string) *FSM {
+	fsm := &FSM{
+		States:     make(map[string]State),
+		Transition: make(map[string][]FSMTransition),
+		Entity:     make(map[string]FSMEntity),
+	}
+
+	if config != "" && len(config) > 4 {
+		if config[len(config)-4:] == ".json" {
+			fsm = LoadTFromFile[*FSM](config)
+		} else {
+			fsm = LoadTFromString[*FSM](config)
+		}
+	}
+
+	return fsm
 }
 
 // Gestion Functions
