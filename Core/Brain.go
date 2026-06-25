@@ -5,19 +5,11 @@ import (
 	"sort"
 )
 
-func NewBrain(config string) *Brain {
+func NewBrain() *Brain {
 	brain := &Brain{
 		States:     make(map[string]State),
 		Transition: make(map[string][]BrainTransition),
 		Entity:     make(map[string]BrainEntity),
-	}
-
-	if len(config) > 4 {
-		if config[len(config)-4:] == ".json" {
-			brain = LoadTFromFile[*Brain](config)
-		} else {
-			brain = LoadTFromString[*Brain](config)
-		}
 	}
 
 	return brain
@@ -127,7 +119,7 @@ func (f *Brain) GetNewState(name string, randSrc *rand.Rand) (BrainTransition, a
 func (f *Brain) ExecuteAction(name string, metaData any) {
 	state := f.GetCurrentState(name)
 	if _, exists := f.States[state]; exists {
-		f.States[state].Action(metaData)
+		f.States[state].Action(name, metaData)
 	}
 }
 

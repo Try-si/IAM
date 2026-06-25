@@ -7,17 +7,9 @@ import (
 
 // Root management
 
-func InitBeavioursTree(config string) *BeavioursTree {
+func InitBeavioursTree() *BeavioursTree {
 	bt := &BeavioursTree{
 		Roots: make(map[string]*BehaviourNode),
-	}
-
-	if config != "" && len(config) > 4 {
-		if config[len(config)-4:] == ".json" {
-			bt = LoadTFromFile[*BeavioursTree](config)
-		} else {
-			bt = LoadTFromString[*BeavioursTree](config)
-		}
 	}
 
 	return bt
@@ -46,22 +38,27 @@ func (bt *BeavioursTree) GetRoots() map[string]*BehaviourNode {
 func (bt *BeavioursTree) Execute(root string) {
 	WorldState := NewWorldState()
 	node := bt.Roots[root]
+	var DefaultData any
+	var ok bool
 	for i := 0; i < 100; i++ {
 		if node == nil {
 			break
 		}
 		if node.Condition == nil {
+			if node.Action != nil {
+				node.Action(DefaultData)
+			}
 			break
 		}
-		ok, metaData := node.Condition(WorldState)
+		ok, DefaultData = node.Condition(WorldState)
 		if node.Verify() {
 			if ok {
 				node = node.TrueNode
 			} else {
 				node = node.FalseNode
 			}
-		} else {
-			node.Execute(metaData)
+		} else if node.Action != nil {
+			node.Action(DefaultData)
 			break
 		}
 	}

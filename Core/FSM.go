@@ -1,18 +1,10 @@
 package Core
 
-func NewFSM(config string) *FSM {
+func NewFSM() *FSM {
 	fsm := &FSM{
 		States:     make(map[string]State),
 		Transition: make(map[string][]FSMTransition),
 		Entity:     make(map[string]FSMEntity),
-	}
-
-	if config != "" && len(config) > 4 {
-		if config[len(config)-4:] == ".json" {
-			fsm = LoadTFromFile[*FSM](config)
-		} else {
-			fsm = LoadTFromString[*FSM](config)
-		}
 	}
 
 	return fsm
@@ -95,7 +87,7 @@ func (f *FSM) GetNewState(name string) (FSMTransition, any) {
 func (f *FSM) ExecuteAction(name string, metaData any) {
 	state := f.GetCurrentState(name)
 	if _, exists := f.States[state]; exists {
-		f.States[state].Action(metaData)
+		f.States[state].Action(name, metaData)
 	}
 }
 

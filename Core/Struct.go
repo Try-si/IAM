@@ -11,6 +11,7 @@ type FSM struct {
 type FSMEntity struct {
 	CurrentState string
 	PréTrans     FSMTransition
+	Action       func(any)
 }
 
 type FSMTransition struct {
@@ -56,5 +57,5 @@ type BehaviourNode struct {
 // Other
 
 type State struct {
-	Action func(any)
+	Action func(string, any)
 }
